@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LegoStore</string>
+    <string name="welcome">¡Welcome!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="version">Versión %1$s</string>
 </resources>
