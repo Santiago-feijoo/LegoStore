@@ -64,10 +64,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/layout_username"/>
+                app:layout_constraintBottom_toTopOf="@id/layout_email"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_username"
+                android:id="@+id/layout_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,10 +82,10 @@
                 app:layout_constraintBottom_toTopOf="@id/layout_password">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editText_username"
+                    android:id="@+id/editText_email"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/username"
+                    android:hint="@string/email"
                     android:inputType="textNoSuggestions" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -101,8 +101,8 @@
                 app:boxCornerRadiusTopStart="8dp"
 
                 app:endIconMode="password_toggle"
-                app:layout_constraintEnd_toEndOf="@id/layout_username"
-                app:layout_constraintStart_toStartOf="@id/layout_username"
+                app:layout_constraintEnd_toEndOf="@id/layout_email"
+                app:layout_constraintStart_toStartOf="@id/layout_email"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
@@ -126,6 +126,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="8dp"
+                android:enabled="false"
 
                 app:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="@id/layout_password"

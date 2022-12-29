@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "424625076384",
+    "project_id": "feijoo-8f137",
+    "storage_bucket": "feijoo-8f137.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424625076384:android:d60b4479b94a6ecb4071c5",
+        "android_client_info": {
+          "package_name": "com.feijoo.legostore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424625076384-voe6eg3l7bm9khv46bdq91hj01mk6b4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdE3GM_V3VwAP_IzFeaS5Eb-rAZE3vSC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424625076384-voe6eg3l7bm9khv46bdq91hj01mk6b4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
