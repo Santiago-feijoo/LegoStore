@@ -9,4 +9,11 @@
     <string name="password_is_empty">You must enter the password</string>
     <string name="user_not_exist">User not exist</string>
     <string name="logged_in_successfully">Logged in successfully</string>
+    <string name="search">Search…</string>
+    <string name="product_name">Product name</string>
+    <string name="product_price_zero">$0</string>
+    <string name="add">Add</string>
+    <string name="zero">0</string>
+    <string name="service_response_error">Service response error</string>
+    <string name="type_of_error_in_the_service_response">Error %1$s in %2$s service</string>
 </resources>

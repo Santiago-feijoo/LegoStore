@@ -1,5 +1,6 @@
 package com.feijoo.legostore.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import androidx.core.widget.doOnTextChanged
 import com.feijoo.legostore.BuildConfig
 import com.feijoo.legostore.R
 import com.feijoo.legostore.databinding.ActivityMainBinding
+import com.feijoo.legostore.ui.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -92,6 +94,9 @@ class MainActivity: AppCompatActivity() {
 
             if(status) {
                 Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.green)).show()
+
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
 
             } else {
                 Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.red)).show()
