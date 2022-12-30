@@ -28,7 +28,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapterProducts = AdapterProducts(this)
+        adapterProducts = AdapterProducts(this, this)
         productList = ArrayList()
 
         initComponents()
@@ -46,13 +46,17 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     }
 
     private fun initListener() {
+        binding.buttonShoppingCart.constraintLayoutShoppingCart.setOnClickListener {
+
+
+        }
 
     }
 
     private fun observe() {
         viewModel.getAllProducts.observe(this) { newProductList ->
             productList = newProductList
-            adapterProducts.setNewProductList(productList)
+            adapterProducts.productList = productList
 
         }
 
@@ -67,7 +71,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
             )
 
             productList.add(product)
-            adapterProducts.setNewProductList(productList)
+            adapterProducts.productList = productList
 
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.red)).show()
 
@@ -75,22 +79,9 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
 
     }
 
-    override fun showDetail(product: Product) {
-
-    }
-
-    override fun addProduct(product: Product) {
-        if(productList.isNotEmpty()) {
-            val selectedProduct = productList.find { it.pId == product.pId }
-
-            selectedProduct?.let { productContent ->
-                productContent.pQuantity += 1
-
-                adapterProducts.setNewProductList(productList)
-
-            }
-
-        }
+    override fun listUpdate() {
+        val purchasedProductList = adapterProducts.productList.filter { it.pQuantity > 0 }
+        binding.buttonShoppingCart.textViewCounter.text = "${purchasedProductList.size}"
 
     }
 

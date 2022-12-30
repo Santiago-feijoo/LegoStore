@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_button_minus"
-                android:background="@color/cardview_light_background"
+                android:background="@color/transparent"
                 android:visibility="gone"
 
                 android:layout_marginTop="8dp"
@@ -112,7 +112,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_button_more"
-                android:background="@color/cardview_light_background"
+                android:background="@color/transparent"
                 android:visibility="gone"
 
                 app:layout_constraintStart_toEndOf="@id/textView_product_quantity"
