@@ -99,6 +99,7 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
             }
 
             binding.cardViewProduct.setOnClickListener {
+                productInterface.showDetail(product)
 
             }
 

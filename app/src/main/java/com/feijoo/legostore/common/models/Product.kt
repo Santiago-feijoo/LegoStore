@@ -5,6 +5,8 @@ data class Product(
     val pId: Long,
     /** Product name **/
     val pName: String,
+    /** Product description **/
+    val pDescription: String,
     /** Product price **/
     val pPrice: Double,
     /** Product stock **/

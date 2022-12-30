@@ -5,12 +5,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.feijoo.legostore.R
+import com.feijoo.legostore.common.Dialogs
 import com.feijoo.legostore.common.adapters.AdapterProducts
 import com.feijoo.legostore.common.interfaces.ProductInterface
 import com.feijoo.legostore.common.models.Product
 import com.feijoo.legostore.databinding.ActivityHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity: AppCompatActivity(), ProductInterface {
@@ -20,6 +22,8 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
 
     private lateinit var adapterProducts: AdapterProducts
     private lateinit var productList: ArrayList<Product>
+
+    @Inject lateinit var dialogs: Dialogs
 
     /** Methods **/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +68,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
             val product = Product(
                 4,
                 "Postal de Nueva York",
+                "",
                 500.0,
                 1,
                 0,
@@ -82,6 +87,11 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     override fun listUpdate() {
         val purchasedProductList = adapterProducts.productList.filter { it.pQuantity > 0 }
         binding.buttonShoppingCart.textViewCounter.text = "${purchasedProductList.size}"
+
+    }
+
+    override fun showDetail(product: Product) {
+        dialogs.dialogProductDetail(this, product)
 
     }
 

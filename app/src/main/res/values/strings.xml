@@ -17,4 +17,8 @@
     <string name="service_response_error">Service response error</string>
     <string name="type_of_error_in_the_service_response">Error %1$s in %2$s service</string>
     <string name="product_out_of_stock">Product out of stock</string>
+    <string name="form_product_description">&lt;b>Product description:&lt;/b> %1$s</string>
+    <string name="product_without_description">Product without description</string>
+    <string name="form_product_price"><b>Product price:</b></string>
+    <string name="form_available_stock"><b>Available stock:</b></string>
 </resources>
