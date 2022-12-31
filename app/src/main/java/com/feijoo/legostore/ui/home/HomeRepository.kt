@@ -43,14 +43,14 @@ class HomeRepository @Inject constructor(private val apiService: ApiService, @Ap
 
     }
 
-    suspend fun getProductDetail(product: Product): HomeResponse {
+    suspend fun getProductDetail(product: Product, position: Int): HomeResponse {
         val api = apiService.getProductDetail(product.id)
 
         when(api.code()) {
             200 -> {
                 api.body()?.let { responseContent ->
                     product.description = responseContent.description
-                    return HomeResponse.ProductWithDetail(product)
+                    return HomeResponse.ProductWithDetail(product, position)
 
                 } ?: kotlin.run {
                     return HomeResponse.Error(context.getString(R.string.service_response_error))

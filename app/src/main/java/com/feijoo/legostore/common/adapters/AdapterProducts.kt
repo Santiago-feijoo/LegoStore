@@ -1,10 +1,8 @@
 package com.feijoo.legostore.common.adapters
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +13,9 @@ import com.feijoo.legostore.R
 import com.feijoo.legostore.common.interfaces.ProductInterface
 import com.feijoo.legostore.common.models.Product
 import com.feijoo.legostore.databinding.ItemProductBinding
-import com.google.android.material.snackbar.Snackbar
 import kotlin.properties.Delegates
 
-class AdapterProducts(private val activity: Activity, private val productInterface: ProductInterface) : RecyclerView.Adapter<ViewHolder>() {
+class AdapterProducts(private val productInterface: ProductInterface) : RecyclerView.Adapter<ViewHolder>() {
     var productList: List<Product> by Delegates.observable(emptyList()) { _, old, new ->
         DiffUtil.calculateDiff(object: DiffUtil.Callback() {
             override fun getOldListSize(): Int {
@@ -55,7 +52,7 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).bind(productList[position], activity, productInterface)
+        (holder as ViewHolder).bind(productList[position], position, productInterface)
 
     }
 
@@ -69,7 +66,7 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
         private val binding = ItemProductBinding.bind(view)
 
         /** Methods **/
-        fun bind(product: Product, activity: Activity, productInterface: ProductInterface) {
+        fun bind(product: Product, position: Int, productInterface: ProductInterface) {
             Glide.with(binding.root)
                 .load(product.image)
                 .placeholder(R.drawable.ic_bag)
@@ -99,62 +96,22 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
             }
 
             binding.cardViewProduct.setOnClickListener {
-                productInterface.showDetail(product)
+                productInterface.showDetail(product, position)
 
             }
 
             binding.buttonAdd.setOnClickListener {
-                if(product.purchasedQuantity < product.stock) {
-                    product.purchasedQuantity++
-
-                    binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
-
-                    binding.buttonAdd.isVisible = false
-                    binding.buttonMinus.isVisible = true
-                    binding.textViewProductQuantity.isVisible = true
-                    binding.buttonMore.isVisible = true
-
-                    productInterface.listUpdate()
-
-                } else {
-                    Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(activity, R.color.red)).show()
-
-                }
+                productInterface.addProduct(product, position)
 
             }
 
             binding.buttonMinus.setOnClickListener {
-                if(product.purchasedQuantity >= 1) {
-                    product.purchasedQuantity--
-
-                    binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
-
-                    if(product.purchasedQuantity == 0) {
-                        binding.buttonMinus.isVisible = false
-                        binding.textViewProductQuantity.isVisible = false
-                        binding.buttonMore.isVisible = false
-                        binding.buttonAdd.isVisible = true
-
-                    }
-
-                    productInterface.listUpdate()
-
-                }
+                productInterface.productRemove(product, position)
 
             }
 
             binding.buttonMore.setOnClickListener {
-                if(product.purchasedQuantity < product.stock) {
-                    product.purchasedQuantity++
-
-                    binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
-
-                    productInterface.listUpdate()
-
-                } else {
-                    Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(activity, R.color.red)).show()
-
-                }
+                productInterface.addProduct(product, position)
 
             }
 

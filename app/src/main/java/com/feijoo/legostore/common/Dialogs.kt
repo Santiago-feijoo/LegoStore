@@ -32,7 +32,7 @@ class Dialogs @Inject constructor() {
 
     }
 
-    fun dialogProductDetail(activity: Activity, product: Product, productInterface: ProductInterface): AlertDialog {
+    fun dialogProductDetail(activity: Activity, product: Product, position: Int, productInterface: ProductInterface): AlertDialog {
         val view = getView(activity, R.layout.dialog_product_detail)
         val binding = DialogProductDetailBinding.bind(view)
         val dialog = getAlertDialog(activity, binding.root)
@@ -90,11 +90,10 @@ class Dialogs @Inject constructor() {
                 binding.textViewProductQuantity.isVisible = true
                 binding.buttonMore.isVisible = true
 
-                productInterface.listUpdate()
+                productInterface.listUpdate(position)
 
             } else {
-                Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(
-                    ContextCompat.getColor(activity, R.color.red)).show()
+                Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(activity, R.color.red)).show()
 
             }
 
@@ -114,7 +113,7 @@ class Dialogs @Inject constructor() {
 
                 }
 
-                productInterface.listUpdate()
+                productInterface.listUpdate(position)
 
             }
 
@@ -126,7 +125,7 @@ class Dialogs @Inject constructor() {
 
                 binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
 
-                productInterface.listUpdate()
+                productInterface.listUpdate(position)
 
             } else {
                 Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(activity, R.color.red)).show()

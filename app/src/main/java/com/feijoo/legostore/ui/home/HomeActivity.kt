@@ -32,7 +32,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapterProducts = AdapterProducts(this, this)
+        adapterProducts = AdapterProducts(this)
         productList = ArrayList()
 
         initComponents()
@@ -64,8 +64,11 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
 
         }
 
-        viewModel.getProductDetail.observe(this) { productWithDetail ->
-            dialogs.dialogProductDetail(this, productWithDetail, this)
+        viewModel.getProductDetail.observe(this) { response ->
+            val productWithDetail = response.first
+            val position = response.second
+
+            dialogs.dialogProductDetail(this, productWithDetail, position,this)
 
         }
 
@@ -80,7 +83,18 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
                 "https://www.lego.com/cdn/cs/set/assets/bltae0305908b9ef97a/40519.png"
             )
 
+            val productTwo = Product(
+                1,
+                "Base Gris",
+                "",
+                400.0,
+                2,
+                0,
+                "https://www.lego.com/cdn/cs/set/assets/blt3baed37200b0845a/11024.png"
+            )
+
             productList.add(product)
+            productList.add(productTwo)
             adapterProducts.productList = productList
 
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.red)).show()
@@ -89,15 +103,40 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
 
     }
 
-    override fun listUpdate() {
+    override fun listUpdate(position: Int) {
         val purchasedProductList = adapterProducts.productList.filter { it.purchasedQuantity > 0 }
         binding.buttonShoppingCart.textViewCounter.text = "${purchasedProductList.size}"
 
+        adapterProducts.notifyItemChanged(position)
+
     }
 
-    override fun showDetail(product: Product) {
-        dialogs.dialogProductDetail(this, product, this)
-//        viewModel.getProductDetail(product)
+    override fun addProduct(product: Product, position: Int) {
+        if(product.purchasedQuantity < product.stock) {
+            product.purchasedQuantity++
+
+            listUpdate(position)
+
+        } else {
+            Snackbar.make(binding.root, getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.red)).show()
+
+        }
+
+    }
+
+    override fun productRemove(product: Product, position: Int) {
+        if(product.purchasedQuantity >= 1) {
+            product.purchasedQuantity--
+
+            listUpdate(position)
+
+        }
+
+    }
+
+    override fun showDetail(product: Product, position: Int) {
+        dialogs.dialogProductDetail(this, product, position, this)
+//        viewModel.getProductDetail(product, position)
 
     }
 
