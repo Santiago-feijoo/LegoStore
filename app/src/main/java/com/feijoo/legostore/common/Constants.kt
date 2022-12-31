@@ -8,6 +8,7 @@ object Constants {
     const val TIMEOUT = 60
 
     /** Services **/
-    const val SERVICE_GET_PRODUCTS = "all-products"
+    const val SERVICE_GET_ALL_PRODUCTS = "all-products"
+    const val SERVICE_GET_PRODUCT_DETAIL = "/detail/"
 
 }

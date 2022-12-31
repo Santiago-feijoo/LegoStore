@@ -85,7 +85,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     }
 
     override fun listUpdate() {
-        val purchasedProductList = adapterProducts.productList.filter { it.pQuantity > 0 }
+        val purchasedProductList = adapterProducts.productList.filter { it.purchasedQuantity > 0 }
         binding.buttonShoppingCart.textViewCounter.text = "${purchasedProductList.size}"
 
     }

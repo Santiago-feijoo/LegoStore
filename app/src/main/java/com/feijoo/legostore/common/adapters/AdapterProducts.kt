@@ -32,7 +32,7 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
             }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return old[oldItemPosition].pId == new[newItemPosition].pId
+                return old[oldItemPosition].id == new[newItemPosition].id
 
             }
 
@@ -71,20 +71,20 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
         /** Methods **/
         fun bind(product: Product, activity: Activity, productInterface: ProductInterface) {
             Glide.with(binding.root)
-                .load(product.pImageUrl)
+                .load(product.image)
                 .placeholder(R.drawable.ic_bag)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .error(R.drawable.ic_bag)
                 .into(binding.imageViewProduct)
 
-            binding.textViewProductName.text = product.pName
+            binding.textViewProductName.text = product.name
 
-            val productPrice = "$${product.pPrice}"
+            val productPrice = "$${product.unit_price}"
             binding.textViewProductPrice.text = productPrice
 
-            binding.textViewProductQuantity.text = "${product.pQuantity}"
+            binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
 
-            if(product.pQuantity > 0) {
+            if(product.purchasedQuantity > 0) {
                 binding.buttonAdd.isVisible = false
                 binding.buttonMinus.isVisible = true
                 binding.textViewProductQuantity.isVisible = true
@@ -104,10 +104,10 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
             }
 
             binding.buttonAdd.setOnClickListener {
-                if(product.pQuantity < product.pStock) {
-                    product.pQuantity++
+                if(product.purchasedQuantity < product.stock) {
+                    product.purchasedQuantity++
 
-                    binding.textViewProductQuantity.text = "${product.pQuantity}"
+                    binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
 
                     binding.buttonAdd.isVisible = false
                     binding.buttonMinus.isVisible = true
@@ -124,12 +124,12 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
             }
 
             binding.buttonMinus.setOnClickListener {
-                if(product.pQuantity >= 1) {
-                    product.pQuantity--
+                if(product.purchasedQuantity >= 1) {
+                    product.purchasedQuantity--
 
-                    binding.textViewProductQuantity.text = "${product.pQuantity}"
+                    binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
 
-                    if(product.pQuantity == 0) {
+                    if(product.purchasedQuantity == 0) {
                         binding.buttonMinus.isVisible = false
                         binding.textViewProductQuantity.isVisible = false
                         binding.buttonMore.isVisible = false
@@ -144,10 +144,10 @@ class AdapterProducts(private val activity: Activity, private val productInterfa
             }
 
             binding.buttonMore.setOnClickListener {
-                if(product.pQuantity < product.pStock) {
-                    product.pQuantity++
+                if(product.purchasedQuantity < product.stock) {
+                    product.purchasedQuantity++
 
-                    binding.textViewProductQuantity.text = "${product.pQuantity}"
+                    binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
 
                     productInterface.listUpdate()
 

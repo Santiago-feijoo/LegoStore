@@ -2,17 +2,17 @@ package com.feijoo.legostore.common.models
 
 data class Product(
     /** Product id **/
-    val pId: Long,
+    val id: Long,
     /** Product name **/
-    val pName: String,
+    val name: String,
     /** Product description **/
-    val pDescription: String,
+    var description: String,
     /** Product price **/
-    val pPrice: Double,
+    val unit_price: Double,
     /** Product stock **/
-    var pStock: Int,
-    /** Product quantity **/
-    var pQuantity: Int,
+    var stock: Int,
+    /** Purchased product quantity **/
+    var purchasedQuantity: Int,
     /** Image url **/
-    val pImageUrl: String
+    val image: String
 )

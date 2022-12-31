@@ -40,25 +40,25 @@ class Dialogs @Inject constructor() {
         }
 
         Glide.with(activity)
-            .load(product.pImageUrl)
+            .load(product.image)
             .placeholder(R.drawable.ic_bag)
             .diskCacheStrategy(DiskCacheStrategy.DATA)
             .error(R.drawable.ic_bag)
             .into(binding.imageViewProduct)
 
-        binding.textViewProductName.text = product.pName
+        binding.textViewProductName.text = product.name
 
-        val productDescription = product.pDescription.ifEmpty {
+        val productDescription = product.description.ifEmpty {
             activity.getString(R.string.product_without_description)
 
         }
 
         binding.textViewProductDescription.text = HtmlCompat.fromHtml(activity.getString(R.string.form_product_description, productDescription), HtmlCompat.FROM_HTML_MODE_LEGACY)
 
-        val productPrice = "$${product.pPrice}"
+        val productPrice = "$${product.unit_price}"
         binding.textViewProductPrice.text = productPrice
 
-        binding.textViewAvailableStock.text = "${product.pStock}"
+        binding.textViewAvailableStock.text = "${product.stock}"
 
         val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog.window?.attributes)

@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class HomeRepository @Inject constructor(private val apiService: ApiService, @ApplicationContext private val context: Context) {
     /** Methods **/
     suspend fun getAllProducts(): HomeResponse {
-        val api = apiService.getProducts()
+        val api = apiService.getAllProducts()
 
         when(api.code()) {
             200 -> {
