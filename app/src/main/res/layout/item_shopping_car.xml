@@ -27,6 +27,7 @@
         android:paddingHorizontal="6dp"
         android:text="@string/zero"
         android:textSize="12sp"
+        android:textColor="@color/white"
 
         app:layout_constraintStart_toEndOf="@id/guideline_counter_one"
         app:layout_constraintTop_toTopOf="parent"

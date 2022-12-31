@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.feijoo.legostore.R
+import com.feijoo.legostore.common.interfaces.ProductInterface
 import com.feijoo.legostore.common.models.Product
 import com.feijoo.legostore.databinding.DialogProductDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,7 +32,7 @@ class Dialogs @Inject constructor() {
 
     }
 
-    fun dialogProductDetail(activity: Activity, product: Product): AlertDialog {
+    fun dialogProductDetail(activity: Activity, product: Product, productInterface: ProductInterface): AlertDialog {
         val view = getView(activity, R.layout.dialog_product_detail)
         val binding = DialogProductDetailBinding.bind(view)
         val dialog = getAlertDialog(activity, binding.root)
@@ -59,6 +63,77 @@ class Dialogs @Inject constructor() {
         binding.textViewProductPrice.text = productPrice
 
         binding.textViewAvailableStock.text = "${product.stock}"
+        binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
+
+        if(product.purchasedQuantity > 0) {
+            binding.buttonAdd.isVisible = false
+            binding.buttonMinus.isVisible = true
+            binding.textViewProductQuantity.isVisible = true
+            binding.buttonMore.isVisible = true
+
+        } else {
+            binding.buttonMinus.isVisible = false
+            binding.textViewProductQuantity.isVisible = false
+            binding.buttonMore.isVisible = false
+            binding.buttonAdd.isVisible = true
+
+        }
+
+        binding.buttonAdd.setOnClickListener {
+            if(product.purchasedQuantity < product.stock) {
+                product.purchasedQuantity++
+
+                binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
+
+                binding.buttonAdd.isVisible = false
+                binding.buttonMinus.isVisible = true
+                binding.textViewProductQuantity.isVisible = true
+                binding.buttonMore.isVisible = true
+
+                productInterface.listUpdate()
+
+            } else {
+                Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(
+                    ContextCompat.getColor(activity, R.color.red)).show()
+
+            }
+
+        }
+
+        binding.buttonMinus.setOnClickListener {
+            if(product.purchasedQuantity >= 1) {
+                product.purchasedQuantity--
+
+                binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
+
+                if(product.purchasedQuantity == 0) {
+                    binding.buttonMinus.isVisible = false
+                    binding.textViewProductQuantity.isVisible = false
+                    binding.buttonMore.isVisible = false
+                    binding.buttonAdd.isVisible = true
+
+                }
+
+                productInterface.listUpdate()
+
+            }
+
+        }
+
+        binding.buttonMore.setOnClickListener {
+            if(product.purchasedQuantity < product.stock) {
+                product.purchasedQuantity++
+
+                binding.textViewProductQuantity.text = "${product.purchasedQuantity}"
+
+                productInterface.listUpdate()
+
+            } else {
+                Snackbar.make(binding.root, activity.getString(R.string.product_out_of_stock), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(activity, R.color.red)).show()
+
+            }
+
+        }
 
         val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog.window?.attributes)

@@ -16,6 +16,9 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
     val getAllProducts: LiveData<ArrayList<Product>> get() = _getAllProducts
     private val _getAllProducts = MutableLiveData<ArrayList<Product>>()
 
+    val getProductDetail: LiveData<Product> get() = _getProductDetail
+    private val _getProductDetail = MutableLiveData<Product>()
+
     val error: LiveData<String> get() = _error
     private val _error = MutableLiveData<String>()
 
@@ -32,10 +35,40 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
                          _error.postValue(response.message)
 
                      }
+                     else -> {
+
+                     }
 
                  }
 
              }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
+
+    }
+
+    fun getProductDetail(product: Product) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                when(val response = repository.getProductDetail(product)) {
+                    is HomeResponse.ProductWithDetail -> {
+                        _getProductDetail.postValue(response.product)
+
+                    }
+                    is HomeResponse.Error -> {
+                        _error.postValue(response.message)
+
+                    }
+                    else -> {
+
+                    }
+
+                }
+
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()

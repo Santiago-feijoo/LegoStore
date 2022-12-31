@@ -64,6 +64,11 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
 
         }
 
+        viewModel.getProductDetail.observe(this) { productWithDetail ->
+            dialogs.dialogProductDetail(this, productWithDetail, this)
+
+        }
+
         viewModel.error.observe(this) { message ->
             val product = Product(
                 4,
@@ -91,7 +96,8 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     }
 
     override fun showDetail(product: Product) {
-        dialogs.dialogProductDetail(this, product)
+        dialogs.dialogProductDetail(this, product, this)
+//        viewModel.getProductDetail(product)
 
     }
 
