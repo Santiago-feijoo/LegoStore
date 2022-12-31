@@ -19,6 +19,9 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
     val getProductDetail: LiveData<Pair<Product, Int>> get() = _getProductDetail
     private val _getProductDetail = MutableLiveData<Pair<Product, Int>>()
 
+    val updatedStock: LiveData<List<Product>> get() = _updatedStock
+    private val _updatedStock = MutableLiveData<List<Product>>()
+
     val error: LiveData<String> get() = _error
     private val _error = MutableLiveData<String>()
 
@@ -56,6 +59,33 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
                 when(val response = repository.getProductDetail(product, position)) {
                     is HomeResponse.ProductWithDetail -> {
                         _getProductDetail.postValue(Pair(response.product, response.position))
+
+                    }
+                    is HomeResponse.Error -> {
+                        _error.postValue(response.message)
+
+                    }
+                    else -> {
+
+                    }
+
+                }
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
+
+    }
+
+    fun buyProducts(productList: List<Product>) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                when(val response = repository.buyProducts(productList)) {
+                    is HomeResponse.UpdatedStock -> {
+                        _updatedStock.postValue(response.productList)
 
                     }
                     is HomeResponse.Error -> {

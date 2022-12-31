@@ -5,6 +5,7 @@ import com.feijoo.legostore.common.models.Product
 import com.feijoo.legostore.common.models.response.ResponseGetProducts
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
@@ -13,5 +14,8 @@ interface ApiService {
 
     @GET(Constants.SERVICE_GET_PRODUCT_DETAIL)
     suspend fun getProductDetail(@Path("productId") productId: Long): Response<Product>
+
+    @POST(Constants.SERVICE_POST_BUY_PRODUCTS)
+    suspend fun buyProducts(): Response<ResponseGetProducts>
 
 }

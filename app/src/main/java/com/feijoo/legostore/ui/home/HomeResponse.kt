@@ -7,6 +7,7 @@ import javax.inject.Singleton
 sealed class HomeResponse {
     data class ProductList(val productList: ArrayList<Product>): HomeResponse()
     data class ProductWithDetail(val product: Product, val position: Int): HomeResponse()
+    data class UpdatedStock(val productList: List<Product>): HomeResponse()
     data class Error(val message: String): HomeResponse()
 
 }

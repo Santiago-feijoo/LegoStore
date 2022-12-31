@@ -67,4 +67,46 @@ class HomeRepository @Inject constructor(private val apiService: ApiService, @Ap
 
     }
 
+    suspend fun buyProducts(productList: List<Product>): HomeResponse {
+        val api = apiService.buyProducts()
+
+        when(api.code()) {
+            200 -> {
+                api.body()?.let { responseContent ->
+                    val newProductList = responseContent.products
+
+                    if(newProductList.isNotEmpty()) {
+                        newProductList.forEach { updatedProduct ->
+                            val currentProduct = productList.find { it.id == updatedProduct.id }
+
+                            currentProduct?.let { product ->
+                                product.stock = updatedProduct.stock
+                                product.purchasedQuantity = 0
+
+                            }
+
+                        }
+
+                        return HomeResponse.UpdatedStock(productList)
+
+                    } else {
+                        return HomeResponse.Error(context.getString(R.string.service_response_error))
+
+                    }
+
+                } ?: kotlin.run {
+                    return HomeResponse.Error(context.getString(R.string.service_response_error))
+
+                }
+
+            }
+            else -> {
+                return HomeResponse.Error(context.getString(R.string.type_of_error_in_the_service_response, api.code().toString(), api.raw().request().url().toString().replace(Constants.CONNECTION_STRING, "")))
+
+            }
+
+        }
+
+    }
+
 }

@@ -10,5 +10,6 @@ object Constants {
     /** Services **/
     const val SERVICE_GET_ALL_PRODUCTS = "all-products"
     const val SERVICE_GET_PRODUCT_DETAIL = "/detail/{productId}"
+    const val SERVICE_POST_BUY_PRODUCTS = "buy"
 
 }

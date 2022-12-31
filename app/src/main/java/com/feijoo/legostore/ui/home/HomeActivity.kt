@@ -21,7 +21,6 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var adapterProducts: AdapterProducts
-    private lateinit var productList: ArrayList<Product>
 
     @Inject lateinit var dialogs: Dialogs
 
@@ -33,7 +32,6 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
         setContentView(binding.root)
 
         adapterProducts = AdapterProducts(this)
-        productList = ArrayList()
 
         initComponents()
         observe()
@@ -50,8 +48,9 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     }
 
     private fun initListener() {
-        binding.buttonShoppingCart.constraintLayoutShoppingCart.setOnClickListener {
-
+        binding.buttonBuy.setOnClickListener { button ->
+            button.isEnabled = false
+            viewModel.buyProducts(adapterProducts.productList)
 
         }
 
@@ -59,8 +58,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
 
     private fun observe() {
         viewModel.getAllProducts.observe(this) { newProductList ->
-            productList = newProductList
-            adapterProducts.productList = productList
+            adapterProducts.productList = newProductList
 
         }
 
@@ -69,6 +67,13 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
             val position = response.second
 
             dialogs.dialogProductDetail(this, productWithDetail, position,this)
+
+        }
+
+        viewModel.updatedStock.observe(this) { newProductList ->
+            adapterProducts.productList = newProductList
+
+            Snackbar.make(binding.root, getString(R.string.successful_purchase), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.green)).show()
 
         }
 
@@ -93,9 +98,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
                 "https://www.lego.com/cdn/cs/set/assets/blt3baed37200b0845a/11024.png"
             )
 
-            productList.add(product)
-            productList.add(productTwo)
-            adapterProducts.productList = productList
+            adapterProducts.productList = listOf(product, productTwo)
 
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.red)).show()
 
@@ -108,6 +111,8 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
         binding.buttonShoppingCart.textViewCounter.text = "${purchasedProductList.size}"
 
         adapterProducts.notifyItemChanged(position)
+
+        binding.buttonBuy.isEnabled = purchasedProductList.isNotEmpty()
 
     }
 

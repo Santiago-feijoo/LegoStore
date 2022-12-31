@@ -21,6 +21,6 @@
     <string name="product_without_description">Product without description</string>
     <string name="form_product_price"><b>Product price:</b></string>
     <string name="form_available_stock"><b>Available stock:</b></string>
-    <string name="more">+</string>
-    <string name="minus">-</string>
+    <string name="buy">Buy</string>
+    <string name="successful_purchase">Successful purchase</string>
 </resources>
