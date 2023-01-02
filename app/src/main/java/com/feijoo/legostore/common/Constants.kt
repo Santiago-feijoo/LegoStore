@@ -12,4 +12,8 @@ object Constants {
     const val SERVICE_GET_PRODUCT_DETAIL = "/detail/{productId}"
     const val SERVICE_POST_BUY_PRODUCTS = "buy"
 
+    /** Preferences key **/
+    const val PREFERENCE_KEY_SESSION_STARTED = "sessionStarted"
+    const val PREFERENCE_KEY_EMAIL = "email"
+
 }
