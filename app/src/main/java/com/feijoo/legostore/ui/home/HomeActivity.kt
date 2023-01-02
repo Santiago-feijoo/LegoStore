@@ -73,33 +73,14 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
         viewModel.updatedStock.observe(this) { newProductList ->
             adapterProducts.productList = newProductList
 
+            adapterProducts.notifyItemRangeChanged(0, newProductList.size)
+            updateView()
+
             Snackbar.make(binding.root, getString(R.string.successful_purchase), Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.green)).show()
 
         }
 
         viewModel.error.observe(this) { message ->
-            val product = Product(
-                4,
-                "Postal de Nueva York",
-                "",
-                500.0,
-                1,
-                0,
-                "https://www.lego.com/cdn/cs/set/assets/bltae0305908b9ef97a/40519.png"
-            )
-
-            val productTwo = Product(
-                1,
-                "Base Gris",
-                "",
-                400.0,
-                2,
-                0,
-                "https://www.lego.com/cdn/cs/set/assets/blt3baed37200b0845a/11024.png"
-            )
-
-            adapterProducts.productList = listOf(product, productTwo)
-
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).setBackgroundTint(ContextCompat.getColor(this, R.color.red)).show()
 
         }
@@ -107,10 +88,14 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     }
 
     override fun listUpdate(position: Int) {
+        adapterProducts.notifyItemChanged(position)
+        updateView()
+
+    }
+
+    private fun updateView() {
         val purchasedProductList = adapterProducts.productList.filter { it.purchasedQuantity > 0 }
         binding.buttonShoppingCart.textViewCounter.text = "${purchasedProductList.size}"
-
-        adapterProducts.notifyItemChanged(position)
 
         binding.buttonBuy.isEnabled = purchasedProductList.isNotEmpty()
 
@@ -140,8 +125,7 @@ class HomeActivity: AppCompatActivity(), ProductInterface {
     }
 
     override fun showDetail(product: Product, position: Int) {
-        dialogs.dialogProductDetail(this, product, position, this)
-//        viewModel.getProductDetail(product, position)
+        viewModel.getProductDetail(product, position)
 
     }
 

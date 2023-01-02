@@ -2,7 +2,7 @@ package com.feijoo.legostore.common
 
 object Constants {
     /** Connection string **/
-    const val CONNECTION_STRING = "https://489a19f7-f7d2-426a-8361-230148034a79.mock.pstmn.io/"
+    const val CONNECTION_STRING = "https://e72ebe8c-e46d-44ed-9143-501c3b67304b.mock.pstmn.io/"
 
     /** Timeout **/
     const val TIMEOUT = 60
